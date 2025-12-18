@@ -1,6 +1,6 @@
 package com.springboot.orders.repository;
 
-import com.springboot.orders.model.order;
+import com.springboot.orders.model.Order;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -8,15 +8,14 @@ import java.util.Map;
 
 @Repository
 public class OrderRepository {
+    private final Map<Long, Order> db = new HashMap<>();
 
-    private final Map<Long, order> db = new HashMap<>();
-
-    public order save(order order) {
+    public Order save(Order order) {
         db.put(order.getId(), order);
         return order;
     }
 
-    public order findById(Long id) {
+    public Order findById(Long id) {
         return db.get(id);
     }
 }

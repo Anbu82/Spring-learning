@@ -1,6 +1,7 @@
 spring:
   application:
     name: order-service
-
   profiles:
     default: upi
+  server:
+    port: 8080   # choose any free port
