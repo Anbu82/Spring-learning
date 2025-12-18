@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Profile("card")
+@Primary  // Mark as primary to avoid bean conflicts
 public class CreditCardPaymentService implements PaymentService {
-
     @Override
     public void processPayment(Long orderId) {
         System.out.println("Credit Card payment processed for order " + orderId);

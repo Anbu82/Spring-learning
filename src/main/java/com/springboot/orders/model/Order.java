@@ -1,11 +1,10 @@
 package com.springboot.orders.model;
 
-public class order {
-
+public class Order {
     private Long id;
     private String status;
 
-    public order(Long id, String status) {
+    public Order(Long id, String status) {
         this.id = id;
         this.status = status;
     }
