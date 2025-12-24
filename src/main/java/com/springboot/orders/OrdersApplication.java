@@ -3,9 +3,11 @@ package com.springboot.orders;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EnableAsync  // To allow async event listeners
+@EnableAsync
+@EnableTransactionManagement   // <--- Add this
 public class OrdersApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OrdersApplication.class, args);

@@ -5,12 +5,13 @@ import com.springboot.orders.model.Order;
 import com.springboot.orders.repository.OrderRepository;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final PaymentService paymentService; // Profile-based
+    private final PaymentService paymentService;
     private final ApplicationEventPublisher eventPublisher;
 
     public OrderService(OrderRepository orderRepository,
@@ -21,19 +22,17 @@ public class OrderService {
         this.eventPublisher = eventPublisher;
     }
 
-    public Order createOrder(Long id) {
-        // 1️⃣ Create order
-        Order order = new Order(id, "CREATED");
+    @Transactional   // <--- Add this
+    public Order createOrder(Long id, String email) {
+        Order order = new Order(id, "CREATED","user@gmail.com");
         orderRepository.save(order);
 
-        // 2️⃣ Process payment via profile-based service
         paymentService.processPayment(id);
 
-        // 3️⃣ Update order status
         order.setStatus("PAID");
         orderRepository.save(order);
 
-        // 4️⃣ Publish Spring Event
+        // Publish event
         eventPublisher.publishEvent(new OrderCreatedEvent(order.getId()));
         System.out.println("Order created and event published: " + order.getId());
 
