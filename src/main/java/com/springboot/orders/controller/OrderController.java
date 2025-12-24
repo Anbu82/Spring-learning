@@ -1,5 +1,6 @@
 package com.springboot.orders.controller;
 
+import com.springboot.orders.dto.OrderRequest;
 import com.springboot.orders.model.Order;
 import com.springboot.orders.service.OrderService;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,11 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping("/{id}")
-    public Order createOrder(@PathVariable Long id) {
-        return orderService.createOrder(id);
+    @PostMapping
+    public Order createOrder(@RequestBody OrderRequest request) {
+        return orderService.createOrder(
+                request.getOrderId(),
+                request.getCustomerEmail()
+        );
     }
 }
