@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class OrderRepository {
@@ -15,7 +16,7 @@ public class OrderRepository {
         return order;
     }
 
-    public Order findById(Long id) {
-        return db.get(id);
+    public Optional<Order> findById(Long id) {
+        return Optional.ofNullable(db.get(id));
     }
 }
