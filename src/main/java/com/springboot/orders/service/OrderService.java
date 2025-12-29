@@ -3,9 +3,13 @@ package com.springboot.orders.service;
 import com.springboot.orders.event.OrderCreatedEvent;
 import com.springboot.orders.model.Order;
 import com.springboot.orders.repository.OrderRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+
 
 @Service
 public class OrderService {
@@ -13,6 +17,8 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final PaymentService paymentService;
     private final ApplicationEventPublisher eventPublisher;
+    private static final Logger log =
+            LoggerFactory.getLogger(OrderService.class);
 
     public OrderService(OrderRepository orderRepository,
                         PaymentService paymentService,
@@ -24,7 +30,7 @@ public class OrderService {
 
     @Transactional   // <--- Add this
     public Order createOrder(Long id, String email) {
-        Order order = new Order(id, "CREATED","user@gmail.com");
+        Order order = new Order(id, "CREATED", email);;
         orderRepository.save(order);
 
         paymentService.processPayment(id);
@@ -34,7 +40,7 @@ public class OrderService {
 
         // Publish event
         eventPublisher.publishEvent(new OrderCreatedEvent(order.getId()));
-        System.out.println("Order created and event published: " + order.getId());
+        log.info("Order created and event published: {}", order.getId());
 
         return order;
     }
