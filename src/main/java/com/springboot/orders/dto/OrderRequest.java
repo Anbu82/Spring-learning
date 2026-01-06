@@ -1,17 +1,14 @@
 package com.springboot.orders.dto;
 
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+
 public class OrderRequest {
 
-    private Long orderId;
+    @NotNull
+    @Email
     private String customerEmail;
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
 
     public String getCustomerEmail() {
         return customerEmail;
@@ -21,3 +18,5 @@ public class OrderRequest {
         this.customerEmail = customerEmail;
     }
 }
+
+

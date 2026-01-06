@@ -29,11 +29,11 @@ public class OrderService {
     }
 
     @Transactional   // <--- Add this
-    public Order createOrder(Long id, String email) {
-        Order order = new Order(id, "CREATED", email);;
+    public Order createOrder(String email) {
+        Order order = new Order("CREATED", email);;
         orderRepository.save(order);
 
-        paymentService.processPayment(id);
+                paymentService.processPayment(order.getId());
 
         order.setStatus("PAID");
         orderRepository.save(order);

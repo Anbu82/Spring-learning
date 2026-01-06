@@ -1,13 +1,26 @@
 package com.springboot.orders.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "orders")
 public class Order {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String status;
+
+    @Column(nullable = false)
     private String customerEmail;
 
-    public Order(Long id, String status, String customerEmail) {
-        this.id = id;
+    protected Order() {
+        // REQUIRED by JPA — do not remove
+    }
+
+    public Order(String status, String customerEmail) {
         this.status = status;
         this.customerEmail = customerEmail;
     }
