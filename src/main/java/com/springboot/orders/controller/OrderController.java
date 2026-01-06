@@ -18,7 +18,6 @@ public class OrderController {
     @PostMapping
     public Order createOrder(@RequestBody OrderRequest request) {
         return orderService.createOrder(
-                request.getOrderId(),
                 request.getCustomerEmail()
         );
     }
