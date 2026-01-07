@@ -1,6 +1,8 @@
 package com.springboot.orders.service;
 
+import com.springboot.orders.dto.OrderResponse;
 import com.springboot.orders.event.OrderCreatedEvent;
+import com.springboot.orders.exception.PaymentFailedException;
 import com.springboot.orders.model.Order;
 import com.springboot.orders.repository.OrderRepository;
 import org.slf4j.Logger;
@@ -29,9 +31,14 @@ public class OrderService {
     }
 
     @Transactional   // <--- Add this
-    public Order createOrder(String email) {
+    public OrderResponse createOrder(String email) {
         Order order = new Order("CREATED", email);;
         orderRepository.save(order);
+
+        // Simulate payment failure
+        if (email.endsWith("@fail.com")) {
+            throw new PaymentFailedException("Payment failed for customer");
+        }
 
                 paymentService.processPayment(order.getId());
 
@@ -42,6 +49,10 @@ public class OrderService {
         eventPublisher.publishEvent(new OrderCreatedEvent(order.getId()));
         log.info("Order created and event published: {}", order.getId());
 
-        return order;
+        return new OrderResponse(
+                order.getId(),
+                order.getStatus(),
+                order.getCustomerEmail()
+        );
     }
 }
