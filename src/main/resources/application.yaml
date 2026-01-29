@@ -3,5 +3,13 @@ spring:
     name: order-service
   profiles:
     default: upi
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_service
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
   server:
     port: 8080   # choose any free port
