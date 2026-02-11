@@ -16,6 +16,9 @@ public class Order {
     @Column(nullable = false)
     private String customerEmail;
 
+    @Version
+    private Long version; //For Optimistic Locking
+
     protected Order() {
         // REQUIRED by JPA — do not remove
     }
@@ -40,4 +43,9 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public Long getVersion() {
+        return version;
+    }
+
 }
