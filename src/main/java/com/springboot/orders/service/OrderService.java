@@ -35,12 +35,14 @@ public class OrderService {
         Order order = new Order("CREATED", email);;
         orderRepository.save(order);
 
+
+                paymentService.processPayment(order.getId());
+
         // Simulate payment failure
         if (email.endsWith("@fail.com")) {
             throw new PaymentFailedException("Payment failed for customer");
         }
 
-                paymentService.processPayment(order.getId());
 
         order.setStatus("PAID");
         orderRepository.save(order);
